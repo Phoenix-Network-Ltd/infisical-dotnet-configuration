@@ -5,6 +5,12 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <Title>Infisical IConfigurationProvider</Title>
+        <PackageId>Phoenix-$(AssemblyName)</PackageId>
+        <Authors>Infisical, Phoenix Network</Authors>
+        <Description>This package adds an IConfigurationProvider for Infisical secrets. This is a fork with extra features implement, since they don't seem to want to update.</Description>
+        <RepositoryUrl>https://github.com/Phoenix-Network-Ltd/infisical-dotnet-configuration</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>
