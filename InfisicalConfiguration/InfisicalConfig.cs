@@ -4,14 +4,21 @@ public class InfisicalConfig
 {
     // Required properties
     public string Environment { get; }
+
     public string ProjectId { get; }
+
     public InfisicalAuth Auth { get; }
 
     // Optional properties with defaults
     public string SecretPath { get; }
+
     public string InfisicalUrl { get; }
+
     public string Prefix { get; }
-    public bool ExpandSecretReferences { get; set; }
+
+    public bool ExpandSecretReferences { get; set; } = true;
+
+    public bool Recursive { get; set; } = true;
 
     internal InfisicalConfig(
         string environment,
@@ -20,7 +27,8 @@ public class InfisicalConfig
         string secretPath,
         string infisicalUrl,
         string prefix,
-        bool expandSecretReferences
+        bool expandSecretReferences,
+        bool recursive
       )
     {
         Environment = environment;
@@ -30,6 +38,7 @@ public class InfisicalConfig
         InfisicalUrl = infisicalUrl;
         Prefix = prefix;
         ExpandSecretReferences = expandSecretReferences;
+        Recursive = recursive;
     }
 }
 
@@ -42,6 +51,7 @@ public class InfisicalConfigBuilder
     private string _secretPath = "/";
     private string _infisicalUrl = "https://app.infisical.com";
     private bool _expandSecretReferences = true;
+    private bool _recursive = true;
 
     public InfisicalConfigBuilder SetAuth(InfisicalAuth auth)
     {
@@ -79,12 +89,19 @@ public class InfisicalConfigBuilder
         return this;
     }
 
+    public InfisicalConfigBuilder ShouldFetchSecretsRecursively(bool recursive)
+    {
+        _recursive = recursive;
+        return this;
+    }
+
     public InfisicalConfigBuilder SetInfisicalUrl(string infisicalUrl)
     {
         if (infisicalUrl.EndsWith("/api"))
         {
             infisicalUrl = infisicalUrl[..^4];
         }
+
         _infisicalUrl = infisicalUrl;
         return this;
     }
@@ -100,7 +117,8 @@ public class InfisicalConfigBuilder
             secretPath: _secretPath,
             infisicalUrl: _infisicalUrl,
             prefix: _prefix ?? "",
-            expandSecretReferences: _expandSecretReferences
+            expandSecretReferences: _expandSecretReferences,
+            recursive: _recursive
         );
     }
 

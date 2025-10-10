@@ -76,6 +76,12 @@ The equivalent of this JSON would be a secret in Infisical with the key `CONNNEC
 **SetAuth()**
 - `auth` (InfisicalAuth): The authentication details that will be used for authenticating against the Infisical API. See more details below.
 
+**ShouldExpandSecretReferences()**
+- 'expandSecretReferences' (boolean): Whether it should expand secret references when fetching secrets.
+
+**ShouldFetchSecretsRecursively()**
+- 'recursive' (boolean): Whether it should look through all subfolders when fetching secrets, eg. fetch all secrets recursively.
+
 
 ### InfisicalAuthBuilder Setters
 
