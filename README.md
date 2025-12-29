@@ -26,6 +26,10 @@ builder.Configuration
             .SetEnvironment("<env-slug>")
             .SetSecretPath("<secret-path>") // Optional, defaults to "/"
             .SetInfisicalUrl("https://infisical-instance.com") // Optional, defaults to https://infisical.com
+            // 1. Resolve references like ${DB_PASS} inside secret values
+            .ShouldExpandSecretReferences("<boolean>")
+            // 2. Fetch secrets from sub-folders (e.g., /database, /auth)
+            .ShouldFetchSecretsRecursively("<boolean>")
             .SetAuth(
                 new InfisicalAuthBuilder()
                     .SetUniversalAuth(
@@ -76,12 +80,22 @@ The equivalent of this JSON would be a secret in Infisical with the key `CONNNEC
 **SetAuth()**
 - `auth` (InfisicalAuth): The authentication details that will be used for authenticating against the Infisical API. See more details below.
 
+---
+
+### 🚀 Advanced Configuration (New Features)
+
 **ShouldExpandSecretReferences()**
-- 'expandSecretReferences' (boolean): Whether it should expand secret references when fetching secrets.
+- `expandSecretReferences` (boolean): **Enables native secret resolution.**
+  - When `true`, the provider resolves cross-secret references (e.g., `${DB_HOST}`) at the server level.
+  - **Benefit:** You receive the final value directly in your `IConfiguration`, avoiding manual parsing in your code.
+  - *Example:* `connectionString: "provider=${DB_TYPE}"` → `"provider=postgresql"`
 
 **ShouldFetchSecretsRecursively()**
-- 'recursive' (boolean): Whether it should look through all subfolders when fetching secrets, eg. fetch all secrets recursively.
+- `recursive` (boolean): **Deep-folder synchronization.**
+  - When `true`, it fetches secrets from the current `SecretPath` **and all its subfolders**.
+  - **Benefit:** Allows you to organize secrets in folders (like `/common`, `/database`, `/services`) and load them all in a single provider instance.
 
+---
 
 ### InfisicalAuthBuilder Setters
 
